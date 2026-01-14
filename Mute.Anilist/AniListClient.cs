@@ -101,7 +101,7 @@ namespace Mute.Anilist
         /// Search for anime by title string.
         /// Yields results page by page.
         /// </summary>
-        public async IAsyncEnumerable<Media> SearchAnimesAsync(string searchString, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public async IAsyncEnumerable<Media> SearchMediaAsync(string searchString, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             const string query = """
                                  query ($search: String, $page: Int) {
@@ -184,7 +184,7 @@ namespace Mute.Anilist
         /// Get all anime airing in a specific season and year.
         /// Yields results page by page.
         /// </summary>
-        public async IAsyncEnumerable<Media> GetSeasonalAnimesAsync(MediaSeason season, int year, [EnumeratorCancellation] CancellationToken cancellationToken = default)
+        public async IAsyncEnumerable<Media> GetSeasonalMediaAsync(MediaSeason season, int year, [EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             const string query = """
                                  query ($season: MediaSeason, $year: Int, $page: Int) {
@@ -270,7 +270,7 @@ namespace Mute.Anilist
         /// <summary>
         /// Get all related media (e.g. sequels, prequels, adaptations)
         /// </summary>
-        public async Task<IReadOnlyList<MediaEdge>> GetRelatedMediaAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<IReadOnlyList<MediaEdge>> GetRelatedMediaAsync(int mediaId, CancellationToken cancellationToken = default)
         {
             const string query = """
                                  query ($id: Int) {
@@ -325,7 +325,7 @@ namespace Mute.Anilist
                                  }
                                  """;
 
-            var variables = new { id = id };
+            var variables = new { id = mediaId };
             var response = await SendRequestAsync<MediaData>(query, variables, cancellationToken);
 
             return response?.Media?.Relations?.Edges ?? [ ];
@@ -334,7 +334,7 @@ namespace Mute.Anilist
         /// <summary>
         /// Get all characters for a given media ID
         /// </summary>
-        public async Task<IReadOnlyList<CharacterEdge>> GetCharactersAsync(int id, CancellationToken cancellationToken = default)
+        public async Task<IReadOnlyList<CharacterEdge>> GetCharactersAsync(int mediaId, CancellationToken cancellationToken = default)
         {
             const string query = """
                                  query ($id: Int) {
@@ -365,7 +365,7 @@ namespace Mute.Anilist
                                  }
                                  """;
 
-            var variables = new { id = id };
+            var variables = new { id = mediaId };
             var response = await SendRequestAsync<MediaData>(query, variables, cancellationToken);
 
             return response?.Media?.Characters?.Edges ?? [ ];

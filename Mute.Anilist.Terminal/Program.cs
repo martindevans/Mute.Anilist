@@ -2,7 +2,7 @@
 
 var client = new AniListClient(new HttpClient());
 
-var season = client.GetSeasonalAnimesAsync(MediaSeason.Winter, 2026);
+var season = client.GetSeasonalMediaAsync(MediaSeason.Winter, 2026);
 await foreach (var media in season)
 {
     Console.WriteLine(media.Title?.Romaji);
@@ -16,7 +16,7 @@ await foreach (var character in characters)
     Console.WriteLine(character.Description);
 }
 
-var search = client.SearchAnimesAsync("One punch");
+var search = client.SearchMediaAsync("One punch");
 await foreach (var anime in search)
 {
     Console.WriteLine(anime.Title?.English ?? anime.Title?.Romaji ?? anime.Title?.Native ?? "null");
