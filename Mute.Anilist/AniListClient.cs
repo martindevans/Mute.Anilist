@@ -675,6 +675,15 @@ namespace Mute.Anilist
         public int? Year { get; init; }
         public int? Month { get; init; }
         public int? Day { get; init; }
+
+        public DateTimeOffset ToDateTimeOffset()
+        {
+            var year = Year ?? 1;
+            var month = Month ?? 1;
+            var day = Day ?? 1;
+
+            return new DateTimeOffset(year, month, day, 0, 0, 0, TimeSpan.Zero);
+        }
     }
 
     [UsedImplicitly]
