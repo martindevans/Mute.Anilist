@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="Mute.Anilist.Terminal/Mute.Anilist.Terminal.csproj" />
+  <Project Path="Mute.Anilist/Mute.Anilist.csproj" />
+</Solution>

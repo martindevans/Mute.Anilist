@@ -1,0 +1,23 @@
+﻿using Mute.Anilist;
+
+var client = new AniListClient(new HttpClient());
+
+var season = client.GetSeasonalAnimesAsync(MediaSeason.Winter, 2026);
+await foreach (var media in season)
+{
+    Console.WriteLine(media.Title?.Romaji);
+    Console.WriteLine(media.CoverImage?.Color?.ToString() ?? "none");
+}
+
+var characters = client.SearchCharactersAsync("Saitama");
+await foreach (var character in characters)
+{
+    Console.WriteLine(character.Name);
+    Console.WriteLine(character.Description);
+}
+
+var search = client.SearchAnimesAsync("One punch");
+await foreach (var anime in search)
+{
+    Console.WriteLine(anime.Title?.English ?? anime.Title?.Romaji ?? anime.Title?.Native ?? "null");
+}
