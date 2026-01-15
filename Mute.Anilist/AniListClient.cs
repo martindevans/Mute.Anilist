@@ -427,6 +427,41 @@ namespace Mute.Anilist
             }
         }
 
+        /// <summary>
+        /// Get a character by their ID
+        /// </summary>
+        /// <param name="characterId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<Character?> GetCharacterByIdAsync(int characterId, CancellationToken cancellationToken = default)
+        {
+            const string query = """
+                                 query ($id: Int) {
+                                     Character (id: $id) {
+                                         id
+                                         name {
+                                             first
+                                             middle
+                                             last
+                                             full
+                                             native
+                                             alternative
+                                         }
+                                         description
+                                         siteUrl
+                                         image {
+                                             large
+                                             medium
+                                         }
+                                     }
+                                 }
+                                 """;
+
+            var variables = new { id = characterId };
+            var response = await SendRequestAsync<CharacterData>(query, variables, cancellationToken);
+            return response?.Character;
+        }
+
         private async Task<T?> SendRequestAsync<T>(string query, object variables, CancellationToken cancellation = default)
             where T : class
         {
@@ -591,6 +626,9 @@ namespace Mute.Anilist
 
     [UsedImplicitly]
     internal class MediaData { public Media? Media { get; init; } }
+
+    [UsedImplicitly]
+    internal class CharacterData { public Character? Character { get; init; } }
 
     [UsedImplicitly]
     internal class PageData { public Page? Page { get; init; } }

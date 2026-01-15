@@ -21,3 +21,10 @@ await foreach (var anime in search)
 {
     Console.WriteLine(anime.Title?.English ?? anime.Title?.Romaji ?? anime.Title?.Native ?? "null");
 }
+
+var characterById = await client.GetCharacterByIdAsync(1);
+if (characterById != null)
+{
+    Console.WriteLine(characterById.Name?.Full);
+    Console.WriteLine(characterById.Description);
+}
